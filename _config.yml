@@ -30,6 +30,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - so-simple-theme-master
+  - .vscode
 include:
   - _pages
 
