@@ -1,0 +1,20 @@
+# Authors
+
+billy_rick:
+  name: Billy Rick
+  web: http://thewhip.com
+  email: billy@rick.com
+  bio: "Чего тебе надобно, девица?"
+  avatar: bio-photo-2.jpg
+  twitter: extravagantman
+  google:
+    plus: BillyRick
+
+cornelius_fiddlebone:
+  name: Cornelius Fiddlebone
+  email: cornelius@thewhip.com
+  bio: "Что заказано?"
+  avatar: bio-photo.jpg
+  twitter: rhymeswithsackit
+  google:
+    plus: CorneliusFiddlebone

@@ -18,7 +18,6 @@ gem "jekyll", "3.4.1"
 # If you have any plugins, put them here!
 group :jekyll_plugins do
    gem "jekyll-feed", "~> 0.6"
-   gem "jekyll-sitemap"
    gem "jekyll-gist"
    gem "jekyll-polyglot"
 end

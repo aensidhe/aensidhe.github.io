@@ -5,4 +5,4 @@ permalink: /about/
 lang: en
 ---
 
-English about
+English about {{ site.data.meta.title }}

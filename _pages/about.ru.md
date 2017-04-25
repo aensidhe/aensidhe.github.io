@@ -5,4 +5,4 @@ permalink: /about/
 lang: ru
 ---
 
-О сайте
+О сайте {{ site.data.meta.title }}

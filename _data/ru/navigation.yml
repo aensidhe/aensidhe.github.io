@@ -1,0 +1,13 @@
+# Site navigation links
+
+- title: О сайте
+  url: /about/
+
+- title: Статьи
+  url: /articles/
+
+- title: Блог
+  url: /blog/
+
+- title: Поиск
+  url: /search/
