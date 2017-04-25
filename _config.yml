@@ -39,6 +39,8 @@ exclude:
   - Gemfile.lock
   - so-simple-theme-master
   - .vscode
+  - sitemap.xml
+  - robots.txt
 include:
   - _pages
 

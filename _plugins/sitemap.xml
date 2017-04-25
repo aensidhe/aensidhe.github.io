@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+{% if page.xsl %}
+  <?xml-stylesheet type="text/xsl" href="{{ "/sitemap.xsl" | absolute_url }}"?>
+{% endif %}
+<urlset
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% for posts in page.grouped_posts %}
+    {% for doc in posts %}
+      <url>
+        <loc>{{ doc.post.url | replace:'/index.html','/' | absolute_url | xml_escape }}</loc>
+        {% if doc.post.last_modified_at or doc.post.date %}
+          <lastmod>{{ doc.post.last_modified_at | default: doc.post.date | date_to_xmlschema }}</lastmod>
+        {% endif %}
+        {% for alternate_doc in posts %}
+          {% if alternate_doc.lang != doc.lang %}
+            <xhtml:link rel="alternate" hreflang="{{ alternate_doc.lang }}" href="{{ alternate_doc.post.url | replace:'/index.html','/' | absolute_url | xml_escape }}" />
+          {% endif %}
+        {% endfor %}
+      </url>
+    {% endfor %}
+  {% endfor %}
+
+  {% assign pages = site.pages | where_exp:'page','page.sitemap != false' | where_exp:'page','page.name != "404.html"' %}
+
+  {% for page in pages %}
+    {% for tongue in site.languages %}
+        <url>
+      {% if tongue == site.default_lang %}
+            <loc>{{ page.url | replace:'/index.html','/' | absolute_url | xml_escape }}</loc>
+      {% else %}
+            <loc>{{ tongue | append: page.url | replace:'/index.html','/' | absolute_url | xml_escape }}</loc>
+      {% endif %}
+            <lastmod>{{ page.last_modified_at | default: page.date | default: site.time | date_to_xmlschema }}</lastmod>
+        {% for alternate_tongue in site.languages %}
+          {% if alternate_tongue != tongue %}
+            {% if alternate_tongue == site.default_lang %}
+            <xhtml:link rel="alternate" hreflang="{{ alternate_tongue }}" href="{{ page.url | replace:'/index.html','/' | absolute_url | xml_escape }}" />
+            {% else %}
+            <xhtml:link rel="alternate" hreflang="{{ alternate_tongue }}" href="{{ alternate_tongue | append: page.url | replace:'/index.html','/' | absolute_url | xml_escape }}" />
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        </url>
+    {% endfor %}
+  {% endfor %}
+
+  {% assign static_files = page.static_files | where_exp:'page','page.sitemap != false' | where_exp:'page','page.name != "404.html"' %}
+  {% for file in static_files %}
+    <url>
+      <loc>{{ file.path | absolute_url | xml_escape }}</loc>
+      <lastmod>{{ file.modified_time | date_to_xmlschema }}</lastmod>
+    </url>
+  {% endfor %}
+</urlset>
