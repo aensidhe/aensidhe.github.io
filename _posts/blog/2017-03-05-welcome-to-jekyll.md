@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Добро пожаловать"
+title:  Добро пожаловать!
 date:   2017-03-05 14:13:37 +0300
 categories: blog
 lang: ru
