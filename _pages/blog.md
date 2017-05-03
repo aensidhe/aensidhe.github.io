@@ -1,15 +1,16 @@
 ---
 layout: page
-title: Последние посты
-excerpt: "A simple and clean responsive Jekyll theme for words and photos."
+title: Бложик
+excerpt: Все записки, отсортированные по дате по убыванию
 search_omit: true
+permalink: /blog/
 lang: ru
-permalink: /
 ---
 
-{% assign posts=site.posts | where:"lang", page.lang %}
+{% assign posts=site.categories.blog | where:"lang", page.lang %}
+
 <ul class="post-list">
-{% for post in posts limit:10 %}
+{% for post in posts %}
   <li><article><a href="{{ site.url }}{{ post.url }}">{{ post.title }} <span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time></span>{% if post.excerpt %} <span class="excerpt">{{ post.excerpt | remove: '\[ ... \]' | remove: '\( ... \)' | markdownify | strip_html | strip_newlines | escape_once }}</span>{% endif %}</a></article></li>
 {% endfor %}
 </ul>

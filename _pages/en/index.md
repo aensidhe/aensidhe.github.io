@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Latest Posts
-excerpt: "A simple and clean responsive Jekyll theme for words and photos."
+title: Last ten stories
+excerpt:
 search_omit: true
 lang: en
 permalink: /

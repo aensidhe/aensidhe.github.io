@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Тажеки
+title: Тэги всякие
 excerpt: "An archive of posts sorted by tag."
 search_omit: true
 permalink: /tags/

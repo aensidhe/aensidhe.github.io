@@ -1,13 +1,13 @@
 # Site navigation links
 
-- title: About
-  url: /about/
-
-- title: Articles
-  url: /articles/
-
 - title: Blog
   url: /blog/
+
+- title: About me
+  url: /about-me/
+
+- title: Ye olde blog [RU]
+  url: http://www.aensidhe.ru/
 
 - title: Search
   url: /search/

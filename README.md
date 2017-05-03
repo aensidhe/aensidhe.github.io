@@ -1,6 +1,8 @@
 # aensidhe.github.io
-Mine blog
 
 # Credits
 
-- https://github.com/jekyll/jekyll-sitemap
+- https://github.com/jekyll/jekyll-sitemap (highly modified)
+- faviconit.com
+- jekyll
+- jekyll-polyglot
