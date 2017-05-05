@@ -1,0 +1,305 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Tarantool и .NET. &#8211; Developer stories</title>
+<meta name="description" content="Можно ли использовать Tarantool в .Net приложениях и как мы докатились до жизни такой? Какие проблемы бывают при написании своих коннекторов? Проблемы, с которыми мы столкнулись в ходе эксплуатации Tarantool.">
+<meta name="keywords" content="tarantool, .netcore, progaudi, mail.ru">
+
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Tarantool и .NET.">
+<meta name="twitter:description" content="Можно ли использовать Tarantool в .Net приложениях и как мы докатились до жизни такой? Какие проблемы бывают при написании своих коннекторов? Проблемы, с которыми мы столкнулись в ходе эксплуатации Tarantool.">
+<meta name="twitter:site" content="@aensidhe">
+<meta name="twitter:creator" content="@aensidhe">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://aensidhe.ru/images/">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tarantool и .NET.">
+<meta property="og:description" content="Можно ли использовать Tarantool в .Net приложениях и как мы докатились до жизни такой? Какие проблемы бывают при написании своих коннекторов? Проблемы, с которыми мы столкнулись в ходе эксплуатации Tarantool.">
+<meta property="og:url" content="https://aensidhe.ru/blog/tarantool-on-windows/">
+<meta property="og:site_name" content="Developer stories">
+
+
+
+
+
+<link rel="canonical" href="/en/blog/tarantool-on-windows/">
+<link href="/en/feed.xml" type="application/atom+xml" rel="alternate" title="Developer stories Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://aensidhe.ru/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="https://aensidhe.ru/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="https://aensidhe.ru/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="https://aensidhe.ru/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- ****** faviconit.com favicons ****** -->
+<link rel="shortcut icon" href="/en/favicon.ico">
+<link rel="icon" sizes="16x16 32x32 64x64" href="/en/favicon.ico">
+<link rel="icon" type="image/png" sizes="196x196" href="/images/favicon/favicon-192.png">
+<link rel="icon" type="image/png" sizes="160x160" href="/images/favicon/favicon-160.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/images/favicon/favicon-64.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16.png">
+<link rel="apple-touch-icon" href="/images/favicon/favicon-57.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/favicon-114.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/favicon-72.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/favicon-144.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/favicon-60.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/favicon-120.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/favicon-76.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/favicon-152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/favicon-180.png">
+<meta name="msapplication-TileColor" content="#FFFFFF">
+<meta name="msapplication-TileImage" content="/images/favicon/favicon-144.png">
+<meta name="msapplication-config" content="/browserconfig.xml">
+</head>
+
+<body id="post">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+			
+				
+				<li><a href=" https://aensidhe.ru/blog/tarantool-on-windows/ ">Ru</a></li>
+				
+			
+				
+			
+      
+		    
+		    <li><a href="/en/blog/" >Blog</a></li>
+		  
+		    
+		    <li><a href="/en/about-me/" >About me</a></li>
+		  
+		    
+		    <li><a href="http://old.aensidhe.ru/" target="_blank">Ye olde blog [RU]</a></li>
+		  
+		    
+		    <li><a href="/en/search/" >Search</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+      <h1 class="site-title animated fadeIn"><a href="/en/">Developer stories</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">Stories from the life of a software developer</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="/en/tags/#tarantool" title="Pages tagged tarantool">tarantool</a></li><li><a href="/en/tags/#.netcore" title="Pages tagged .netcore">.netcore</a></li><li><a href="/en/tags/#progaudi" title="Pages tagged progaudi">progaudi</a></li><li><a href="/en/tags/#mail.ru" title="Pages tagged mail.ru">mail.ru</a></li>
+        </ul>
+        
+          <h1 class="entry-title">Tarantool и .NET.</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="https://aensidhe.ru/images/aen.jpg" class="bio-photo" alt="Anatoly 'Aen Sidhe' Popov bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Anatoly 'Aen Sidhe' Popov</span></span>
+        <span class="entry-date date published"><time datetime="2017-05-03T00:00:00+03:00"><i class="fa fa-calendar-o"></i> May 03, 2017</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="Введение">Введение</h2>
+
+<p>Следует сказать, что этот пост изначально был опубликован на <a href="https://habrahabr.ru/company/mailru/blog/326216/">хабре</a> с помощью товарищей из Mail.Ru. За что им большое спасибо.</p>
+
+<p><img src="/images/blog/2017/05/tarantool-.net.1.jpg" alt="выбор субд" /></p>
+
+<h2 id="Выбор-СУБД">Выбор СУБД</h2>
+<p>В жизни каждого проекта рано или поздно возникает переломный момент, когда нужно выбрать СУБД для хранения всех данных. Наш проект с этой точки зрения простой: пользователи, голосования, ответы, какая-то попутно собираемая информация — всё это прекрасно можно держать в key-value хранилище. Поэтому на старте мы рассматривали три варианта: Redis, Tarantool и MySQL с handlersocket. Фаворитом с самого начала был Redis. Он быстро работает, у него замечательный коннектор для .NET, созданный командой Stack Overflow. К слову, сам Stack Overflow написан на .NET, работает на Windows, у них SQL Server от Microsoft, Redis и ещё <a href="https://stackexchange.com/performance">много интересного</a>. У Redis прекрасная <a href="https://redis.io/commands">документация</a>. Если мы нанимаем нового программиста, который никогда не работал с Redis, то мы отправляем его туда — и через три дня он знает примерно всё, что ему нужно знать для использования Redis.</p>
+
+<p>Под вторым номером шёл Tarantool. К сожалению, у него не было такого удобного сайта, как у Redis. Как и коннектора для .NET. По скорости он нас полностью устраивал, так как не сильно отличался от Redis. Если вы включаете write ahead logging, то любая запись окажется на диске. И если у вас не глючит контроллер, диск или прочее железо, то получается вполне надёжно. Также в Tarantool есть вторичные индексы. В некоторых случаях это очень важная фича. В Redis её нет, приходится делать вручную.</p>
+
+<p>Handlersocket оказался аутсайдером. Он медленнее, чем Redis и Tarantool. Зато доступна ACID-модель, если ваш движок в MySQL её поддерживает. Доступна вся инфраструктура от MySQL: репликация, мониторинг, эксплейн, бэкапы. Можно строить сложные отчёты на обычном SQL. Коннектора под .NET тоже не было.</p>
+
+<p><img src="/images/blog/2017/05/tarantool-.net.2.png" alt="image" /></p>
+
+<p>В результате мы выбрали Redis и запустили его в свою закрытую альфу. Но через какое-то время выяснилось, что отсутствие вторичных индексов — более серьёзная проблема, чем мы думали. Если нужно выбрать все голосования, созданные каким-либо автором, то приходится заводить дополнительные списки для хранения (можно, конечно, делать полный перебор, но это не наш случай). Есть риск, что в результате разных сбоев данные станут неконсистентными. Попытки исправить это через Lua-скрипты или транзакции привели к тому, что работа Redis замедлилась примерно в три-четыре раза, что перестало нас устраивать. Это не проблема самого Redis, а следствие его нецелевого использования, на мой взгляд.</p>
+
+<p><img src="/images/blog/2017/05/tarantool-.net.3.png" alt="no windows binary" /></p>
+
+<h2 id="tarantool-и-windows">Tarantool и Windows</h2>
+<p>Тогда мы решили перейти на Tarantool. И перед нами встали сразу две проблемы. У Tarantool до сих пор нет бинарника под Windows (и неизвестно, когда появится) — раз. Не было коннектора для .NET — два. Вообще говоря, это спорный вопрос, можно ли назвать недостатком отсутствие версии нашего хранилища под Windows. Я считаю это преимуществом. Ведь в production будет, скорее всего, Linux, а отсутствие версии под Windows заставит программиста разбираться в том, как всё работает на самом деле. Программист для отладки и мониторинга будет пользоваться теми же инструментами, что и в production. По моим наблюдениям, это повышает вероятность написания качественного кода без ошибок и уменьшает время простоя в случае катастроф.</p>
+
+<p>Первую проблему мы решили использованием Docker for Windows для разработки. А вот вторая проблема была посложнее.</p>
+
+<h2 id="Коннектор">Коннектор</h2>
+<p>Поскольку готового коннектора для Tarantool не существовало, мы написали свой. Для этого пришлось решить две задачи. Первая: реализовать сериализацию и десериализацию в <a href="https://github.com/msgpack/msgpack/blob/master/spec.md">msgpack</a>, так как это формат обмена данных в Tarantool. У нас она была решена в рамках проекта <a href="https://github.com/progaudi/MsgPack.Light">MsgPack.Light</a>, так как мы тоже храним данные, упакованные в msgpack. Вторая задача сводилась к буквальной реализации протокола обмена данных с <a href="https://tarantool.org/doc/1.7/dev_guide/internals_index.html">Tarantool iProto</a>. Она решена в рамках проекта <a href="https://github.com/progaudi/progaudi.tarantool">progaudi.tarantool</a>.</p>
+
+<p>Мы поддерживаем</p>
+
+<ul>
+  <li>.NET 4.6 и выше,</li>
+  <li>новый opensource-фреймворк .NET Core: netstandard 1.4 и выше.</li>
+</ul>
+
+<p>Раньше коннектор назывался tarantool.csharp, но после обратной связи от <a href="https://habrahabr.ru/company/mailru/blog/321998/#comment_10076216">комьюнити</a> мы его переименовали в progaudi.tarantool. Теперь название не должно вызывать никакой путаницы — можно ли использовать коннектор из F# или нет. Можно было с самого начала.</p>
+
+<p>Благодаря недавним улучшениям в MsgPack.Light, коннектор научился работать с тарантуловским типом данных scalar. В будущем планируется ещё больше упростить работу с коннектором и уйти от явной конвертации объектов пользователя в TarantoolTuple-структуры.</p>
+
+<p>Мы не поддерживаем DDL, потому что он выходит за рамки iProto и должен быть реализован обёртками над EVAL-командой. Лично я считаю, что если программист использует Tarantool, то он должен писать схему в Lua, потому что в таком случае можно шарить её с админами и распространять сразу в работающее окружение. Может быть, я неправ, и мы реализуем возможность делать это из .NET.</p>
+
+<p>На текущий момент у нас есть соединение только с одной нодой Tarantool. Мы не полностью поддерживаем CALL_16, в определённых случаях на стороне Tarantool происходит странная упаковка, и это приводит к ошибкам при десериализации. Новый CALL поддерживается полностью, рекомендуем пользоваться им.</p>
+
+<h2 id="Особенности-разработки-коннекторов-к-tarantool">Особенности разработки коннекторов к Tarantool</h2>
+<p>К сожалению, в Tarantool невозможно попросить сервер выводить все запросы в лог. В некоторых ситуациях это очень мешает при отладке, при этом нам обычно не важна производительность сервера Tarantool. Хотелось бы получить какую-то ручку, которая включает запись всех запросов в лог.</p>
+
+<p>При логировании запросов в лог хочется их как-то отделять друг от друга. Для этого у нас есть connection id (box.session.id) и request id (box.session.sync). К сожалению, box.session.sync расшарен на все запросы в рамках одного соединения, как следствие, он может меняться, если выполнение запроса прерывается из-за достижения yield point (<a href="https://tarantool.org/doc/1.7/book/box/atomic.html?highlight=yield">запись в базу, ручная передача управления и так далее</a>). В принципе, это важно только там, где может встретиться несколько точек логирования, например, в хранимых процедурах. В таких случаях следует box.session.sync сохранять до первого yield point в локальную переменную.</p>
+
+<h2 id="Сервер-приложений">Сервер приложений</h2>
+<p>Важная часть Tarantool — это сервер приложений. К нему существует множество уже готовых модулей, начиная с простых, таких как автоматическая <a href="https://github.com/Mons/tnt-package-reload/">перезагрузка других модулей</a>, заканчивая <a href="https://github.com/tarantool/shard">шардированием</a>, <a href="https://github.com/tarantool/queue">очередями</a> и драйверами к другим СУБД (<a href="https://github.com/tarantool/mqtt">1</a>, <a href="https://github.com/tarantool/mysql">2</a> и многое другое). Все модули, которые мы пробовали, прекрасно работают, неплохо документированы и поддерживаются.</p>
+
+<p>Из всего этого разнообразия мы используем tarantool/queue для очередей и tarantool/prometheus для сбора метрик. Также у нас есть немного своей логики на Lua. Немного — потому что наша команда из мира .NET. Мы привыкли, что есть статический анализ кода, есть пошаговая отладка, удобные профайлеры. У Lua с этим проблемы, особенно со статическим анализом кода.</p>
+
+<h2 id="Репликация">Репликация</h2>
+<p>Очень хотелось бы получить синхронную репликацию. Мы уже умеем жить без неё, но очень сильно ждём. Пока что мы пользуемся имеющейся master-master асинхронной репликацией. Один из наших сервисов работает с картинками. Там фигурируют случайные ключи, и мы можем писать в любую ноду, потому что вероятность совпадения ключей крайне мала. Нам нужно, чтобы совпали сгенерированный guid для картинок и SHA256. Так как к этому мы пришли не сразу, то коннектор до сих пор не умеет соединяться с несколькими нодами. В нынешнем году мы это обязательно исправим.</p>
+
+<h2 id="Сборка-кластера-в-старых-версиях">Сборка кластера в старых версиях</h2>
+<p>В очень старом билде 1.7.3-0 может не собраться кластер. Допустим, у вас три мастер-ноды. Указываете им одинаковые конфигурации, запускаете. И пока любая из нод не увидит свои источники, откуда она забирает данные, она не будет принимать запросы от других клиентов. К сожалению, эти источники для них — клиенты. В результате все три ноды не отвечают на запросы и ждут 30 секунд. В это время они ищут свои источники, не находят, пишут в лог: «Источников нет, я выключилась». И кластер не собирается. Приходится собирать вручную. Запускаем одну ноду без общей конфигурации. Она поднимается, подключаем к ней остальные ноды, а потом меняем конфигурацию на единую. В новой версии этот баг уже исправлен.</p>
+
+<h2 id="Версионирование-образа-для-докера-tarantooltarantool">Версионирование образа для <a href="https://hub.docker.com/r/tarantool/tarantool/">докера tarantool/tarantool</a></h2>
+<p>Допустим, версия образа 1.7.3. А какая версия Tarantool внутри? Мы знаем, что 1.7.3, но номер сборки неизвестен. Единственный вариант — посмотреть исходники. Допустим, нужна версия Tarantool 1.7.3-115, потому что в 114 ещё была проблема, которая нас больно бьет, а в 116 — мы не знаем, есть она или нет. Какую версию образа взять?</p>
+
+<p>Мы решили задачу просто: сами собираем свой образ, указываем конкретный номер сборки — и всё прекрасно работает. Но в целом это небольшая проблема. Образ по умолчанию прекрасно работает и покроет бо́льшую часть запросов, туда включены все основные модули, которые нужны для работы с Tarantool: мониторинг, очереди и т. д. Можно брать и пользоваться.</p>
+
+<h2 id="Интерактивные-запросы">Интерактивные запросы</h2>
+<p>Чтобы написать интерактивный запрос в Tarantool, нужно знать Lua и уметь пользоваться командной строкой. Наши тестеры и админы умеют обращаться с командной строкой, но они не горят желанием разбираться с Lua. Они хотят быстренько написать SQL-скрипт, проверить какой-нибудь счётчик или timestamp. Поэтому мы очень ждём анонсированную поддержку SQLite-диалекта.</p>
+
+<h2 id="Мониторинг-и-логирование">Мониторинг и логирование</h2>
+<p>С ними всё прекрасно. Есть модуль <a href="https://github.com/tarantool/prometheus">tarantool/prometheus</a>, который опубликован на сайте <a href="https://prometheus.io/docs/instrumenting/exporters/">Prometheus</a>. Так как мы используем в production docker, то логи мы с него собираем с помощью Fluentd (<a href="https://www.fluentd.org/">1</a> и <a href="https://docs.docker.com/engine/admin/logging/fluentd/">2</a>) и складываем их в <a href="https://www.elastic.co/">ElasticSearch</a>.</p>
+
+<h2 id="Выводы">Выводы</h2>
+<p>.NET — это далеко не только Windows: .NET Core работает на всех платформах. У нас в production есть .NET-приложение, которое прекрасно функционирует на Linux. Наши opensource-проекты без проблем собираются и работают на Windows, Mac OS и Linux (тестируются только Windows 10, Max OS X, Ubuntu 16.04). При этом вполне возможно для разработки и отладки использовать весь богатый инструментарий, доступный в мире .NET и зачастую бесплатный даже для коммерческой <a href="https://www.visualstudio.com/vs/community/">разработки</a>.</p>
+
+<p>Благодаря кроссплатформенности новых .NET-решений, появляется возможность использовать недоступные ранее инструменты, например, Tarantool. Если вам важна скорость работы, вторичные индексы, возможность использования СУБД в качестве сервера приложений или очереди задач, то Tarantool — очень хороший выбор на сегодняшний день.</p>
+
+        
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Anatoly 'Aen Sidhe' Popov. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	<a href="https://twitter.com/aensidhe" title="Anatoly 'Aen Sidhe' Popov on Twitter" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+	<a href="https://facebook.com/aensidhe" title="Anatoly 'Aen Sidhe' Popov on Facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/aensidhe" title="Anatoly 'Aen Sidhe' Popov on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="/en/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'https://aensidhe.ru';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://aensidhe.ru/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://aensidhe.ru/assets/js/scripts.min.js"></script>
+
+
+
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter44529637 = new Ya.Metrika({
+                    id: 44529637,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/44529637" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+
+</body>
+</html>
