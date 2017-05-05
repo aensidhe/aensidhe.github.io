@@ -73,3 +73,5 @@ owner:
     ad-client:
     ad-slot:
   bing-verify:
+  yandex:
+    metrica: '44529637'
