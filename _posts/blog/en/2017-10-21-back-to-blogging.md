@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Hello, mates!
-excerpt: Let's start blogging
+excerpt: If there is a blog, there should be some posts, right? Let the first one be about streaming and food.
 categories: blog
 comments: true
 lang: en
