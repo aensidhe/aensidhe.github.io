@@ -40,7 +40,7 @@ exclude:
   - so-simple-theme-master
   - .vscode
   - sitemap.xml
-  - robots.txt
+  - google5669fad924fc0cb6.html
 include:
   - _pages
 
@@ -49,6 +49,9 @@ languages: ["ru", "en"]
 default_lang: "ru"
 exclude_from_localization: ["assets", "images", "so-simple-theme-master"]
 parallel_localization: true
+
+collections:
+  - _posts
 
 # Site owner
 owner:
@@ -60,7 +63,7 @@ owner:
   facebook: aensidhe #username
   github: aensidhe #username
   stackexchange: https://stackoverflow.com/users/27337/aen-sidhe
-  linkedin: #username
+  linkedin: anatolypopov #username
   instagram: #username
   flickr: #username
   tumblr: #username

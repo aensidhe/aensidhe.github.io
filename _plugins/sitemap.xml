@@ -7,19 +7,17 @@
   xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  {% for posts in page.grouped_posts %}
-    {% for doc in posts %}
-      <url>
-        <loc>{{ doc.post.url | replace:'/index.html','/' | absolute_url | xml_escape }}</loc>
-        {% if doc.post.last_modified_at or doc.post.date %}
-          <lastmod>{{ doc.post.last_modified_at | default: doc.post.date | date_to_xmlschema }}</lastmod>
+  {% for post in page.grouped_posts %}
+    {% for main_tongue in post.languages %}
+    <url>
+      <loc>{{ main_tongue[1] | replace:'/index.html','/' | absolute_url | xml_escape }}</loc>
+      <lastmod>{{ post.date | default: site.time | date_to_xmlschema }}</lastmod>
+      {% for alternate_tongue in post.languages %}
+        {% if alternate_tongue[0] != main_tongue[0] %}
+           <xhtml:link rel="alternate" hreflang="{{ alternate_tongue[0] }}" href="{{ alternate_tongue[1] | replace:'/index.html','/' | absolute_url | xml_escape }}" />
         {% endif %}
-        {% for alternate_doc in posts %}
-          {% if alternate_doc.lang != doc.lang %}
-            <xhtml:link rel="alternate" hreflang="{{ alternate_doc.lang }}" href="{{ alternate_doc.post.url | replace:'/index.html','/' | absolute_url | xml_escape }}" />
-          {% endif %}
-        {% endfor %}
-      </url>
+      {% endfor %}
+    </url>
     {% endfor %}
   {% endfor %}
 

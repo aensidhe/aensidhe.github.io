@@ -43,19 +43,25 @@ module AenSidheBlog
             site_map.data["layout"] = nil
             site_map.data["static_files"] = static_files.map(&:to_liquid)
             site_map.data["xsl"] = file_exists?("sitemap.xsl")
-            site_map.data["grouped_posts"] = @site
-                .collections
-                .values
-                .select { |x| x.write? }
-                .flat_map { |x| x.docs }
-                .select { |x| x.data["sitemap"] != false }
-                .map { |x| {
-                        "lang" => x.permalink[x.permalink.rindex("-")+1..x.permalink.rindex("/")-1],
-                        "slug" => x.permalink[0..x.permalink.rindex("-")-1],
-                        "post" => x
-                } }
-                .group_by { |x| x["slug"] }
-                .values
+            posts = @site.categories["blog"].map { |x| {
+                "date" => x.date,
+                "path" => x.path,
+                "languages" => {
+                    @site.default_lang => x.permalink
+            }}}
+
+            for lang in @site.languages
+                unless lang == @site.default_lang
+                    for post in posts
+                        path = post["path"].gsub(/_posts\/blog\//, "_posts/blog/" + lang + "/")
+
+                        if file_exists? path
+                            post["languages"][lang] = post["languages"][@site.default_lang].gsub(/^\/blog\//, "/blog/" + lang + "/")
+                        end
+                    end
+                end
+            end
+            site_map.data["grouped_posts"] = posts
             site_map
         end
 
