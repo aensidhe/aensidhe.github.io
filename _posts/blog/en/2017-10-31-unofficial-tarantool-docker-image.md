@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Неофициальный докер-образ для Tarantool
-excerpt: Даёшь тег в докер хабе на каждый пакет тарантула!
+title: Unofficial docker image for Tarantool
+excerpt: We have tag for every package version of Tarantool (since now)!
 categories: blog
 lang: en
 tags:
