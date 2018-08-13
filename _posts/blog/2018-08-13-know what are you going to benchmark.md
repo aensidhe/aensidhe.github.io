@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Знай, что ты тестируешь
+title: Знай, что ты измеряешь
 excerpt: Или как хитрый компилятор обманывает программистов
 categories: blog
 lang: ru
