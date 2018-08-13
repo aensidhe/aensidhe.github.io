@@ -15,9 +15,9 @@ author: aensidhe_2018
 comments: true
 ---
 
-In [previous post]({{ site.baseurl }}{% post_url /blog/2018-08-03-не-думай-о-секундах-свысока %}) I decsribed process of benchmarking of my library and how I stumbled upon interesting issue about slowness of code with subtraction. I even opened an [issue](https://github.com/dotnet/coreclr/issues/19355). And [@mikedn](https://github.com/mikedn) reminded me very about very important and interesting thing: know what are you going to benchmark. The bigger and more complex your benchmark is, it becomes more and more likely that you'll measure something else, not what you wanted. E.g. people measure .net GC in this [issue](https://github.com/progaudi/progaudi.tarantool/issues/127) mostly, not the actual code of driver.
+In [previous post]({% post_url blog/en/2018-08-03-не-думай-о-секундах-свысока %}) I decsribed process of benchmarking of my library and how I stumbled upon interesting issue about slowness of code with subtraction. I even opened an [issue](https://github.com/dotnet/coreclr/issues/19355). And [@mikedn](https://github.com/mikedn) reminded me very about very important and interesting thing: know what are you going to benchmark. The bigger and more complex your benchmark is, it becomes more and more likely that you'll measure something else, not what you wanted. E.g. people measure .net GC in this [issue](https://github.com/progaudi/progaudi.tarantool/issues/127) mostly, not the actual code of driver.
 
-And I got bitten by the same thing. Almost the same. You can see results of better designed [benchmark](https://github.com/aensidhe/dotnet-core-minus-regression/blob/minus-benchmark/reproduction/Program.cs) below:
+And I got bitten by almost same thing. Almost the same. You can see results of better designed [benchmark](https://github.com/aensidhe/dotnet-core-minus-regression/blob/minus-benchmark/reproduction/Program.cs) below:
 
    Method |     Mean |    Error |   StdDev |       Q3 | Scaled | ScaledSD | Allocated |
 --------- |---------:|---------:|---------:|---------:|-------:|---------:|----------:|
@@ -54,3 +54,5 @@ mp_encode_uint(char *data, uint64_t num)
 {% endhighlight %}
 
 In old benchmark GCC 6.0 was able to find out that `num ∈ [1<<30 - 100, 1<<30]` even for non-const integer and to eliminate all code, except one branch. In .net core JIT was able to do the same, but only for constant integer. In other cases JIT generated full code with all branches. So, "slow code" was actual code" and "fast" one was an anomaly tied to an ability of compilers eliminate dead code. Developer should take this into account during designing of benchmark. E.g. `SpanConst` here is for illustrating elimination of code and proving hypothesis that jit and gcc eliminate code here.
+
+Conclusion: benchmarking is hard, you need to know what you're measuring and to test that corner cases.
