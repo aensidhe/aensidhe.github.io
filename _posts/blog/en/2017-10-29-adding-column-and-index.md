@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Let's add column to table. It's simple, yes?
-excerpt: Как нам добавить колонку и индекс в Tarantool?
+excerpt: How to add column and index in Tarantool? 
 categories: blog
 comments: true
 lang: en
