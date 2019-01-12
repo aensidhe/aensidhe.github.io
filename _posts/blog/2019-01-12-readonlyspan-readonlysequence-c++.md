@@ -11,7 +11,7 @@ author: aensidhe_2018
 comments: true
 ---
 
-В .net есть два типа: [ReadOnlySpan<T>](https://docs.microsoft.com/en-us/dotnet/api/system.readonlyspan-1) и [ReadOnlySequence<T>](https://docs.microsoft.com/en-us/dotnet/api/system.buffers.readonlysequence-1). Первый представляет собой абстракцию над неизменяемым непрерывным массивом из элементов T, второй - цепочку из подобных отрезков. Первый удобен, когда вам надо написать метод, оперирующий над а-ля массивами, которые могут быть: обычными массивами, массивами на стеке (привет, stackalloc), массивами в неуправляемой памяти и так далее. Его оверхед я рассматривал [ранее]({% post_url blog/2018-08-13-know what are you going to benchmark %}).
+В .net есть два типа: [ReadOnlySpan&lt;T&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.readonlyspan-1) и [ReadOnlySequence&lt;T&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.buffers.readonlysequence-1). Первый представляет собой абстракцию над неизменяемым непрерывным массивом из элементов T, второй - цепочку из подобных отрезков. Первый удобен, когда вам надо написать метод, оперирующий над а-ля массивами, которые могут быть: обычными массивами, массивами на стеке (привет, stackalloc), массивами в неуправляемой памяти и так далее. Его оверхед я рассматривал [ранее]({% post_url blog/2018-08-13-know what are you going to benchmark %}).
 
 `ReadOnlySequence<T>` же чаще всего (на мой взгляд) полезен там, где у нас есть чтение из сети, потому что если вам по сети едет один миллион (или хотя бы тысяча) 64-битных чисел, вряд ли они приедут к вам одной пачкой. Надеяться можно, но это далеко не всегда так. Чаще всего это будет какая-то цепочка из буферов.
 
@@ -48,17 +48,18 @@ private void Read(ReadOnlySpan<byte> source, Span<TElement> array, ref int readS
 - Цепочку из нескольких буферов тоже нельзя представить в виде одного указателя и длины (чем является `ReadOnlySpan<T>`) без копирования по понятным причинам.
 
 Я пока не вижу другого способа, кроме как дублировать код. Вспоминается старый добрый С++, в котором можно было бы (если мне не изменяет память) сделать примерно вот так:
-{% highlight cplusplus %}
+{% highlight c++ %}
 template<typename TContainer>
 template<typename TElement>
 class Parser
 {
     private const IMsgPackParser<TElement> _elementParser;
-    private void Read(TContainer<byte> source, Span<TElement> array, ref int readSize)
+    private void Read(const TContainer<byte>& source, Span<TElement>& array, int& readSize)
     {
         for (var i = 0; i < array.Length; i++)
         {
-            array[i] = _elementParser.Parse(source.Slice(readSize), out var temp);
+            int temp;
+            array[i] = _elementParser.Parse(source.Slice(readSize), temp);
             readSize += temp;
         }
     }
