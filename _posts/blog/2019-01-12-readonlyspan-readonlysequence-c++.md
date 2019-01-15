@@ -5,8 +5,11 @@ excerpt: Или когда ты плачешь по шаблонам из С++
 categories: blog
 lang: ru
 tags:
-  - conferences
-  - dotnext
+  - readonlyspan
+  - readonlysequence
+  - generics
+  - templates
+  - c++
 author: aensidhe_2018
 comments: true
 ---
