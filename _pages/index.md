@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Последние десять записок
+title: Последние записки
 excerpt:
 search_omit: true
 lang: ru

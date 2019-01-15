@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Last ten stories
+title: Last stories
 excerpt:
 search_omit: true
 lang: en
