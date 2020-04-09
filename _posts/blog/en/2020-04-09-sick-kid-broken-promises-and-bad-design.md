@@ -17,7 +17,7 @@ That service is a test bed to some middlewares and formatters that I'm going to 
 
 Fortunately, problem was easy to replicate in local docker container. No logs, 500, same as in cloud. We're using rider to develop .net pplications. Unfortunately, Rider (at the moment of writing) can't debug ready-to-run applications. It can debug apps in docker, though. Ok, let's fallback to VS2019: fortunately it can debug ready-to-run application. One of devs from Jetbrains team said that they will try to ship debug of ready-to-run applications in release after 2020.1. But no promises were maid and that's understandable. Still, we're waiting for this feature.
 
-VS2019 has an ability to attach debugger to a process inside of container. Probably, even remote ones, I've never tested it yet. I'm using `FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1.3-buster-slim` as base image. It doesn't have curl or wget in there, so you to install one of those to make that remote debugging work. And yes, VS2019 can debug ready-to-run applications. And we're getting this exception in VS2019:
+VS2019 has an ability to attach debugger to a process inside of container. Probably, even remote ones, I've never tested it yet. I'm using `FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1.3-buster-slim` as base image. It doesn't have curl or wget in there, so you need to install one of those by yourself to make that remote debugging work. And yes, VS2019 can debug ready-to-run applications. And we're getting this exception in VS2019:
 
 {% highlight text %}
 MySql.Data.MySqlClient.MySqlException (0x80004005): SSL Authentication Error
@@ -94,7 +94,7 @@ System.NullReferenceException: Object reference not set to an instance of an obj
    at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
 {% endhighlight %}
 
-Gotcha! Line 56 is where we're passing stacktrace to serilog method that should format a string. That [method](https://github.com/serilog/serilog/blob/8ae332d983b31044f4da0fa34e3b9cb85ba68bc9/src/ Serilog/Formatting/Json/JsonValueFormatter.cs#L298) assumes that passed string isn't null. And this is public API. So, let's talk about broken promises. We're getting to broken promises part of the
+Gotcha! Line 56 is where we're passing stacktrace to serilog method that should format a string. That [method](https://github.com/serilog/serilog/blob/8ae332d983b31044f4da0fa34e3b9cb85ba68bc9/src/Serilog/Formatting/Json/JsonValueFormatter.cs#L298) assumes that passed string isn't null. And this is public API. So, let's talk about broken promises. We're getting to broken promises part of the
 story.
 
 In my project file I have this code:
