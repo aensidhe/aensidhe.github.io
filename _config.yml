@@ -47,7 +47,7 @@ include:
 # Polyglot
 languages: ["ru", "en"]
 default_lang: "ru"
-exclude_from_localization: ["assets", "images", "so-simple-theme-master"]
+exclude_from_localization: ["assets", "images", "so-simple-theme-master", "1-pixel-wealth"]
 parallel_localization: true
 
 collections:

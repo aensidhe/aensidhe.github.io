@@ -1,0 +1,4 @@
+[submodule "1-pixel-wealth"]
+	path = 1-pixel-wealth
+	url = git@github.com:aensidhe/1-pixel-wealth.git
+	branch = master
