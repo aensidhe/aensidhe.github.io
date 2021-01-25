@@ -1,22 +1,4 @@
 {
   "terminal.integrated.shell.windows": "C:\\WINDOWS\\Sysnative\\bash.exe",
-  "workbench.colorCustomizations": {
-    "activityBar.background": "#e3a284",
-    "activityBar.activeBackground": "#e3a284",
-    "activityBar.activeBorder": "#1e823d",
-    "activityBar.foreground": "#15202b",
-    "activityBar.inactiveForeground": "#15202b99",
-    "activityBarBadge.background": "#1e823d",
-    "activityBarBadge.foreground": "#e7e7e7",
-    "titleBar.activeBackground": "#d9825b",
-    "titleBar.inactiveBackground": "#d9825b99",
-    "titleBar.activeForeground": "#15202b",
-    "titleBar.inactiveForeground": "#15202b99",
-    "statusBar.background": "#d9825b",
-    "statusBarItem.hoverBackground": "#cf6232",
-    "statusBar.foreground": "#15202b",
-    "statusBar.border": "#d9825b",
-    "titleBar.border": "#d9825b"
-  },
   "peacock.color": "#d9825b"
 }
