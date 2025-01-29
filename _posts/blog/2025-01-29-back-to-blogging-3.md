@@ -5,7 +5,7 @@ excerpt: Зачем вам запасная мобила
 categories: blog
 comments: true
 lang: ru
-author: aensidhe_2018
+author: aensidhe_2025
 tags:
   - life
   - mobile
